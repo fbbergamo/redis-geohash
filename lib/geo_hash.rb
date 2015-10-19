@@ -33,7 +33,7 @@ class GeoHash
     "store_#{member}_#{id}"
   end
 
-  # should be two  arrayies [latitude, longitude]
+  # should be two array of [latitude, longitude]
   def bouding_box_geohash(nw_point, se_point)
     nw_geohash = redis.geoencode(*nw_point)[0]
     se_geohash = redis.geoencode(*se_point)[0]
@@ -47,7 +47,7 @@ class GeoHash
     return false if ids and ids.count == 0
     ids_to_search = ids.map {|id| point_key(id) }
     positions = redis.mget *ids_to_search
-    positions_convert = positions.map{|pos| JSON.parse(pos) if pos.present? }
+    positions_convert = positions.map{|pos| JSON.parse(pos) if pos }
     return Hash[ids.zip(positions_convert)]
   end
 
